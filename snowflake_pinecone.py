@@ -23,12 +23,14 @@ cur = connection.cursor()
 cur.execute("SELECT DISTINCT METADATA$FILENAME AS File_name FROM @SNOWGPT_DB.STG.SNOWGPT_S3_STAGE")
 results = cur.fetchall()
 
-st.write("results : ",results)
+# st.write("results : ",results)
+print(results)
 
 cur.execute("SELECT File_name FROM SNOWGPT_DB.AUDIT.AUDIT_TB;")
 audit_files = cur.fetchall()
 
 # st.write("audit files : ",audit_files)
+print(audit_files)
 
 presigned_urls = []
 
@@ -42,6 +44,7 @@ for i in results:
         presigned_urls.append(urls[0][0])
 
 # st.write(presigned_urls)
+print(presigned_urls)
 
 loader = UnstructuredURLLoader(urls=presigned_urls)
 documents = loader.load()

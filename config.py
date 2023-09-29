@@ -6,8 +6,8 @@ snowflake_database = "SNOWGPT_DB"
 snowflake_schema = "STG"
 stage_name = "snowgpt_s3_stage"
 
-api_key="741d647c-da49-4048-9d88-3b56e9e8e7f3"     
-environment="gcp-starter"  
+api_key="30b05cc6-2aed-42b4-83dd-967358f305bc"     
+environment="asia-southeast1-gcp-free"  
 
-index_name="snowpineidx"
+index_name="pinecone"
 

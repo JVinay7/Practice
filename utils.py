@@ -4,20 +4,33 @@ import openai
 import streamlit as st
 from config import *
 import snowflake.connector
+import warnings
+
+# Suppress Streamlit's deprecation warnings
+warnings.filterwarnings("ignore",category=DeprecationWarning)
+
+st.set_page_config(layout="wide")
 
 # Define Snowflake connection parameters
-
-# conn = {
-#     "user"  : snowflake_user,
-#     "password": snowflake_password,
-#     "account": snowflake_account,
-#     "warehouse": snowflake_warehouse,
-#     "database": snowflake_database,
-#     "schema": snowflake_schema
-# }
-
+conn_params = {
+    "user"  : snowflake_user,
+    "password": snowflake_password,
+    "account": snowflake_account,
+    "warehouse": snowflake_warehouse,
+    "database": snowflake_database,
+    "schema": snowflake_schema
+}
+connection = None
 try:
-    connection = snowflake.connector.connect(**st.secrets["snowflake"])
+    # connection = snowflake.connector.connect(**st.secrets["snowflake"])
+    # connection = st.experimental_connection('snowflake',type='sql')
+    # Create a function to establish and return a Snowflake connection
+    @st.cache(allow_output_mutation=True)
+    def get_snowflake_connection():
+        conn = snowflake.connector.connect(**conn_params)
+        return conn
+    
+    connection = get_snowflake_connection()
     
     model = SentenceTransformer('all-MiniLM-L6-v2')
 
